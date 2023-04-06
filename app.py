@@ -20,7 +20,7 @@ model = tf.keras.models.load_model("best_model.h5")
 
 
 
-@app.route('/predict', methods=['POST'])
+@app.route('/', methods=['POST'])
 def predict():
     # Get the uploaded image file
     image_file = request.files['image']
@@ -49,4 +49,4 @@ def predict():
 
 
 if __name__ == '__main__':
-    app.run(debug=True,port=7000)
+    app.run()
