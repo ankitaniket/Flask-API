@@ -19,7 +19,7 @@
             var formData = new FormData(form);
 
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', `https://flask-api-y6wj.onrender.com`);
+            xhr.open('POST', `https://flask-api-y6wj.onrender.com/`);
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     var response = JSON.parse(xhr.responseText);

@@ -1,17 +1,14 @@
-import os
-import glob
 from PIL import Image
 import tensorflow as tf
-from flask import Flask, request,jsonify
-from keras.preprocessing.image import ImageDataGenerator
+from flask import Flask, request
 from PIL import Image
 import numpy as np
-import os
 from keras.applications.inception_v3 import InceptionV3, preprocess_input
-from flask import Flask, request, jsonify
+from flask import Flask, request
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app)
 
 model = tf.keras.models.load_model("best_model.h5")
 
@@ -41,8 +38,9 @@ def predict():
         result = "This image contains a pothole."
 
     # Add the Access-Control-Allow-Origin header to the response
-    response = jsonify({'result': result})
-    response.headers.add('Access-Control-Allow-Origin', '*')
+    # response = jsonify({'result': result})
+    # response.headers.add('Access-Control-Allow-Origin', '*')
+    return result
 
     # Return the prediction result as a JSON object
     return response
