@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<!-- port = 8001 -->
+<head>
+    <title>Pothole Detector</title>
+    <style>
+
+body {
+  background-image: url('templates/blue_background.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed; 
+  background-size: cover;
+}
+        .green {
+            background-color: green;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+
+        #image {
+            display: block;
+            margin: 0 auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            background-color: #f1f1f1;
+            font-family: Arial, sans-serif;
+        }
+
+
+        /* Center the image */
+        #img-div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Style the upload button */
+        #upload-button {
+            background-color: blue;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* Style the result text */
+        .result-color {
+            color: #fff;
+            text-align: center;
+            font-size: 24px;
+            margin-top: 20px;
+            text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Style the page title */
+        h1 {
+            text-align: center;
+            color: #f1f1f1;
+            margin-top: 0;
+            text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+        }
+    
+    </style>
+</head>
+
+<body>
+    <div id="img-div">
+        <img src="http://192.168.43.247/800x600.jpg" id="image" width="800px" height="600px" />
+    </div>
+
+    <h1 id="result" class="result-color"></h1>
+
+    <script>
+        function sendImage() {
+            var img = document.getElementById('image');
+            var url = img.src; // Assuming the image URL is already set in the 'src' attribute of the 'img' element
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://127.0.0.1:8001'); 
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    var resultDiv = document.querySelector('#result');
+                    resultDiv.innerHTML = response.result;
+                    var imgDiv = document.getElementById('img-div');
+                    if (response.result === 'This image contains a pothole.') {
+                        resultDiv.className = 'result-color red'; // Add the 'red' class to the element
+                    } else {
+                        resultDiv.className = 'result-color green'; // Add the 'green' class to the element
+                    }
+                    img.src = url + '?timestamp=' + Date.now(); // Update the src attribute with a new timestamp value
+                } else {
+                    alert('Error: ' + xhr.status);
+                }
+            };
+            xhr.send(JSON.stringify({ "image_url": url })); // Send the URL of the image in the request body
+        }
+        var interval = setInterval(sendImage, 1000); // Call the sendImage function every 0.7 seconds
+        // Hide the upload button
+    </script>
+</body>
+</html>

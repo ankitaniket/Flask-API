@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Upload</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Upload an image</h1>
+    <form enctype="multipart/form-data">
+        <input type="file" name="image" id="file-input">
+        <button type="button" onclick="uploadImage()" id="upload-btn">Upload Image</button>
+    </form>
+
+    <h1 id="result">this</h1>
+
+    <script>
+        function uploadImage() {
+            var form = document.querySelector('form');
+            var formData = new FormData(form);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', `http://127.0.0.1:8001`);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    var resultDiv = document.querySelector('#result');
+                    resultDiv.innerHTML = response.result;
+                    resultDiv.classList.add('fade-in');
+                } else {
+                    alert('Error: ' + xhr.status);
+                }
+            };
+            xhr.send(formData);
+        }
+    </script>
+
+    <style>
+        /* Button styles */
+#upload-btn {
+  background-color: #0085f3a3;
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 26px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  border-radius: 50px;
+  outline: none;
+  box-shadow: 0px 3px 0px #000000;
+}
+
+#upload-btn:hover {
+  background-color: #3fe3d5aa;
+  box-shadow: 0px 3px 0px #cd3325;
+}
+
+#upload-btn:active {
+  background-color: #3182c1;
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+/* Input styles */
+#file-input {
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px #aaa;
+  outline: none;
+  transition-duration: 0.4s;
+  width:inherit;
+  height: 20px;
+  margin-bottom: 10px;
+  background-color: #f0f0f0;
+}
+
+#file-input:focus {
+  border: 2px solid #4CAF50;
+  box-shadow: 0px 0px 10px #000000;
+}
+
+/* Form styles */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+/* Result styles */
+#result {
+  text-align: center;
+  margin-top: 20px;
+  opacity: 0;
+  font-size: 40px;
+}
+h1{
+    text-align: center;
+}
+
+/* Animation styles */
+.fade-in {
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+    </style>
+</body>
+</html>
