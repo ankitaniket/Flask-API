@@ -29,7 +29,7 @@ def generate_unique_filename(result):
     prefix = 'Y' if result == "This image contains a pothole." else ''
     return f"{prefix}{uuid.uuid4()}"  
 
-@app.route('/', methods=['POST'])
+@app.route('/pred', methods=['POST'])
 def predict():
     if request.headers['Content-Type'] == 'application/json':
 
@@ -116,7 +116,7 @@ def whoami():
     return output
 
 
-@app.route('/index')
+@app.route('/')
 def index():
     return render_template('index.html')
 
