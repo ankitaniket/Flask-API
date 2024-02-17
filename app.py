@@ -10,6 +10,8 @@ from flask_cors import CORS
 import uuid
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
+tensorrt_libs_path = "/path/to/your/python/libs/tensorrt_libs/"
+os.environ['LD_LIBRARY_PATH'] = f"{os.environ.get('LD_LIBRARY_PATH', '')}:{tensorrt_libs_path}"
 
 
 app = Flask(__name__)
