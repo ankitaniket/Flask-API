@@ -1,4 +1,5 @@
 import tensorflow as tf
+import os
 from flask import Flask, request,jsonify,render_template,make_response,render_template_string
 from PIL import Image
 import numpy as np
@@ -7,6 +8,8 @@ import requests
 from keras.applications.inception_v3 import preprocess_input
 from flask_cors import CORS
 import uuid
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
 
 
 app = Flask(__name__)
